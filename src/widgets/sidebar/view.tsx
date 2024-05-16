@@ -2,13 +2,21 @@ import { Box, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoriesQuery } from "./model";
 import { CategoryCard } from "../../entities";
+import { useCategoryStore } from "../product-list/store";
+import { useUserStore } from "../../shared/providers/auth_provider/store";
 
 export const Sidebar = () => {
+  const setCategory = useCategoryStore((state) => state.setCategory);
+  const user = useUserStore((state) => state.user);
   const { data, isLoading } = useQuery({
     queryKey: ["get-categories"],
     queryFn: async () => getCategoriesQuery(),
   });
-  console.error(data, isLoading);
+
+  if (!isLoading && data) {
+    data[0] && setCategory(data[0]?.id);
+  }
+
   return (
     <Box
       sx={{
@@ -26,12 +34,7 @@ export const Sidebar = () => {
         ) : (
           data &&
           data.map((item) => (
-            <CategoryCard
-              key={item.id}
-              id={item.id}
-              imageUrl={item.imageUrl}
-              name={item.name}
-            />
+            <CategoryCard key={item.id} card={item} isAdmin={!!user?.isAdmin} />
           ))
         )}
       </Box>

@@ -1,0 +1,1 @@
+export { AddProductToCategory } from "./view";

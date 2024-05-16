@@ -1,3 +1,9 @@
+import { ProductList } from "../../widgets";
+
 export const HOME_PAGE = () => {
-  return <div>zalupa</div>;
+  return (
+    <div>
+      <ProductList />
+    </div>
+  );
 };

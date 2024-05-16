@@ -1,11 +1,12 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import SearchIcon from "@mui/icons-material/Search";
-import { Search, SearchIconWrapper, StyledInputBase } from "./styles";
 import { ADMIN_ROUTE, HOME_ROUTE, SETTINGS_ROUTE } from "../../config";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useUserStore } from "../../shared/providers/auth_provider/store";
+import { Search } from "../../features/search/view";
+import { Basket } from "../../features/basket/view";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const user = useUserStore((state) => state.user);
@@ -19,7 +20,7 @@ export const Navbar = () => {
           component="div"
           sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
         >
-          <a href={HOME_ROUTE}>Лавка</a>
+          <Link to={HOME_ROUTE}>Лавка</Link>
         </Typography>
 
         {user?.isAdmin && (
@@ -29,22 +30,15 @@ export const Navbar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            <a href={ADMIN_ROUTE}>Панель управления</a>
+            <Link to={ADMIN_ROUTE}>Панель управления</Link>
           </Typography>
         )}
+        <Basket />
+        <Search />
 
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Поиск…"
-            inputProps={{ "aria-label": "Поиск" }}
-          />
-        </Search>
-        <a href={SETTINGS_ROUTE}>
+        <Link to={SETTINGS_ROUTE}>
           <AccountCircleIcon />
-        </a>
+        </Link>
       </Toolbar>
     </AppBar>
   );
